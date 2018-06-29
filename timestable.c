@@ -30,13 +30,17 @@ int inputValidation(
     int argc,
     char *argv[]);
 
+// Print multiple table
+void printTable(
+    int min,
+    int max);
+
 
 int main(
     int argc,
     char *argv[])
 {
-    int row, column, max = 10, valid = 0;
-    int min = 1, charWidth = 0;
+    int max = 10, valid = 0, min = 1;
 
 
     // Command line argument validation
@@ -64,27 +68,7 @@ int main(
         exit(1);
     }
 
-    // Get max Character width
-    charWidth = countWidth(max * max) + 1;
-
-    // Printing table lines
-    printColumn(charWidth, max, min);
-    printLine(charWidth, max, min);
-
-    for (row = min; row <= max; row++)
-    {
-        for (column = min; column <= max; column++)
-        {
-            if (column == min)
-            {
-                printf("%*d\u2502", charWidth, row);
-            }
-
-            printf("%*d", charWidth, (row * column));
-        }
-
-        printf("\n");
-    }
+    printTable(min, max);
 
     return 0;
 }
@@ -201,4 +185,32 @@ int inputValidation(
     }
 
     return valid;
+}
+
+// Print multiple table
+void printTable(int min, int max)
+{
+    int charWidth, row, column;
+
+    // Get max Character width
+    charWidth = countWidth(max * max) + 1;
+
+    // Printing table lines
+    printColumn(charWidth, max, min);
+    printLine(charWidth, max, min);
+
+    for (row = min; row <= max; row++)
+    {
+        for (column = min; column <= max; column++)
+        {
+            if (column == min)
+            {
+                printf("%*d\u2502", charWidth, row);
+            }
+
+            printf("%*d", charWidth, (row * column));
+        }
+
+        printf("\n");
+    }
 }
