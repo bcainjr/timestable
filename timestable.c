@@ -62,9 +62,10 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-// Counts the number of digits a number has
 int countWidth(int num)
 {
+    /* Counts the number of digits a number has*/
+
     int size = 0;
 
     while (num != 0)
@@ -76,9 +77,9 @@ int countWidth(int num)
     return size;
 }
 
-// Prints the line between the row header and the products
 void printColumn(int charWidth, int width)
 {
+    /* Prints the line between the row header and the products*/
     for (int i = 0; i <= width; i++)
     {
         // Checks when to put X at table corner
@@ -95,9 +96,10 @@ void printColumn(int charWidth, int width)
     printf("\n");
 }
 
-// Prints the line between the header numbers and the products
 void printLine(int charWidth, int width)
 {
+    /* Prints the line between the header numbers and the products*/
+
     int totalLines = (width * charWidth) + charWidth;
     for (int i = 0; i <= totalLines; i++)
     {
@@ -113,9 +115,10 @@ void printLine(int charWidth, int width)
     printf("\n");
 }
 
-// Validates command line arguments
 int inputValidation(int argc, char *argv[])
 {
+    /* Validates command line arguments*/
+
     int isDigit = 1, valid = 0, j = 0;
 
     // Checks if arguments are strictly a number
