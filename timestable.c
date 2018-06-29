@@ -11,10 +11,10 @@
 
 // Count the number of digits a number has
 int countWidth(int num);
-// Prints the line between row header and products
-void printColumn(int charWidth, int width);
+// Prints the header 
+void printColumn(int charWidth, int width, int min);
 // Prints the line between header and products
-void printLine(int charWidth, int width);
+void printLine(int charWidth, int width, int min);
 // Validates command line arguments
 int inputValidation(int argc, char *argv[]);
 
@@ -22,6 +22,7 @@ int inputValidation(int argc, char *argv[]);
 int main(int argc, char *argv[])
 {
     int row, column, height = 10, width = 10, valid = 0;
+    int min = 1;
     int charWidth = countWidth(height * width) + 1;
 
     // Command line argument validation
@@ -34,27 +35,32 @@ int main(int argc, char *argv[])
     }
     else if (valid == 2)
     {
+        min = atoi(argv[1]);
+        width = atoi(argv[2]);
+        height = atoi(argv[2]);
+        charWidth = countWidth(height * width) + 1;
+    }
+    else if (valid == 3)
+    {
         printf("Too many arguements or out of bounds.\n");
         printf("Enter one integer for width 1 to 32\n");
         exit(0);
     }
 
     // Printing table lines
-    printColumn(charWidth, width);
-    printLine(charWidth, width);
+    printColumn(charWidth, width, min);
+    printLine(charWidth, width, min);
 
-    for (row = 1; row <= height; row++)
+    for (row = min; row <= height; row++)
     {
-        for (column = 0; column <= width; column++)
+        for (column = min; column <= width; column++)
         { 
-            if (column == 0)
+            if (column == min)
             {
                 printf("%*d \u2502", charWidth, row);
             }
-            else
-            {
-                printf("%*d", charWidth, (row * column));
-            }
+            
+            printf("%*d", charWidth, (row * column));
         }
 
         printf("\n");
@@ -77,30 +83,28 @@ int countWidth(int num)
     return size;
 }
 
-void printColumn(int charWidth, int width)
+void printColumn(int charWidth, int width, int min)
 {
-    /* Prints the line between the row header and the products*/
-    for (int i = 0; i <= width; i++)
+    /* Prints the header*/
+    for (int i = min; i <= width; i++)
     {
         // Checks when to put X at table corner
-        if (i == 0)
+        if (i == min)
         {
             printf("%*s \u2502", charWidth, "X");
         }
-        else
-        {
-            printf("%*d", charWidth, i);
-        }
+        
+        printf("%*d", charWidth, i);
     }
 
     printf("\n");
 }
 
-void printLine(int charWidth, int width)
+void printLine(int charWidth, int width, int min)
 {
     /* Prints the line between the header numbers and the products*/
 
-    int totalLines = (width * charWidth) + charWidth;
+    int totalLines = ((width - min) * charWidth) + 2 * charWidth;
     for (int i = 0; i <= totalLines; i++)
     {
         printf("\u2500");
@@ -127,7 +131,7 @@ int inputValidation(int argc, char *argv[])
         j = 0;
         while (argv[i][j] != '\0')
         {
-            if (! (isdigit(argv[i][j])))
+            if (!isdigit(argv[i][j]))
             {
                 isDigit = 0;
                 break;
@@ -149,9 +153,14 @@ int inputValidation(int argc, char *argv[])
     {
         valid = 1;
     }
-    else if (argc != 1 || !(isDigit))
+    else if (isDigit && argc == 3 && (atoi(argv[1]) <= atoi(argv[2])) &&
+            (atoi(argv[1]) >= 0) && (atoi(argv[2]) <= 32))
     {
         valid = 2;
+    }
+    else if (argc != 1 || !(isDigit))
+    {
+        valid = 3;
     }
 
     return valid;
